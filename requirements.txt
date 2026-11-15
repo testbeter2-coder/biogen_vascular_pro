@@ -1,0 +1,4 @@
+torch
+fpdf
+streamlit
+pandas
