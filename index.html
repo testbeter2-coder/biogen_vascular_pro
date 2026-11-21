@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BioGen-True Physiology Engine | Medical AI Simulation</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -14,10 +15,12 @@
         --muted: #64748b;
         --border: #e2e8f0;
       }
+
       * {
         box-sizing: border-box;
         transition: all 0.2s ease;
       }
+
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: var(--bg);
@@ -25,6 +28,7 @@
         padding: 20px;
         color: var(--text);
       }
+
       .container {
         max-width: 1100px;
         margin: 0 auto;
@@ -44,6 +48,7 @@
         padding-bottom: 20px;
         margin-bottom: 25px;
       }
+
       .brand h2 {
         color: var(--primary-dark);
         margin: 0;
@@ -52,6 +57,7 @@
         align-items: center;
         gap: 10px;
       }
+
       .brand p {
         color: var(--muted);
         margin: 4px 0 0 0;
@@ -63,6 +69,7 @@
         gap: 8px;
         flex-wrap: wrap;
       }
+
       .preset-btn {
         background: #f0fdfa;
         color: var(--primary-dark);
@@ -73,6 +80,7 @@
         font-weight: 600;
         cursor: pointer;
       }
+
       .preset-btn:hover {
         background: var(--primary);
         color: white;
@@ -84,6 +92,7 @@
         grid-template-columns: 1.15fr 1fr;
         gap: 25px;
       }
+
       @media (max-width: 820px) {
         .main-grid {
           grid-template-columns: 1fr;
@@ -96,6 +105,7 @@
         border-radius: 18px;
         border: 1px solid var(--border);
       }
+
       .panel-title {
         font-size: 15px;
         font-weight: 700;
@@ -113,10 +123,12 @@
         border: 1px solid var(--border);
         margin-bottom: 12px;
       }
+
       .control-item:hover {
         border-color: #5eead4;
         box-shadow: 0 4px 12px rgba(13, 148, 136, 0.06);
       }
+
       .control-header {
         display: flex;
         justify-content: space-between;
@@ -125,6 +137,7 @@
         font-size: 13.5px;
         font-weight: 600;
       }
+
       .badge-val {
         background: #ccfbf1;
         color: #115e59;
@@ -142,6 +155,7 @@
         height: 6px;
         border-radius: 5px;
       }
+
       select {
         width: 100%;
         padding: 10px;
@@ -164,12 +178,14 @@
         overflow: hidden;
         box-shadow: 0 10px 25px rgba(15, 118, 110, 0.25);
       }
+
       .hero-label {
         font-size: 13px;
         opacity: 0.9;
         font-weight: 600;
         letter-spacing: 0.5px;
       }
+
       .hero-number {
         font-size: 46px;
         font-weight: 800;
@@ -185,6 +201,7 @@
         margin: 12px auto;
         max-width: 85%;
       }
+
       .progress-fill {
         height: 100%;
         background: #5eead4;
@@ -210,6 +227,7 @@
         gap: 12px;
         margin-top: 15px;
       }
+
       .sub-card {
         background: white;
         padding: 14px;
@@ -217,12 +235,14 @@
         border: 1px solid var(--border);
         text-align: center;
       }
+
       .sub-card span {
         display: block;
         font-size: 11.5px;
         color: var(--muted);
         font-weight: 600;
       }
+
       .sub-card strong {
         display: block;
         font-size: 18px;
@@ -239,6 +259,7 @@
         font-size: 12px;
         color: #115e59;
       }
+
       .clinical-box {
         margin-top: 12px;
         background: white;
@@ -247,7 +268,9 @@
         border-right: 4px solid var(--primary);
         font-size: 13px;
         line-height: 1.6;
-        border: 1px solid var(--border);
+        border-top: 1px solid var(--border);
+        border-left: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
       }
 
       .btn-download {
@@ -266,6 +289,7 @@
         justify-content: center;
         gap: 8px;
       }
+
       .btn-download:hover {
         background: #1e293b;
         transform: translateY(-1px);
@@ -290,18 +314,21 @@
         </div>
         <div class="presets">
           <button
+            type="button"
             class="preset-btn"
             onclick="applyPreset(120, 10, 3.0, 1.8, 99)"
           >
             ✨ حالة مستقرة
           </button>
           <button
+            type="button"
             class="preset-btn"
             onclick="applyPreset(105, 22, 3.8, 1.2, 95)"
           >
             ⚖️ حالة قياسية
           </button>
           <button
+            type="button"
             class="preset-btn"
             onclick="applyPreset(65, 42, 5.2, 0.6, 80)"
           >
@@ -447,7 +474,7 @@
             <div class="clinical-box" id="note"></div>
           </div>
 
-          <button class="btn-download" onclick="downloadReport()">
+          <button type="button" class="btn-download" onclick="downloadReport()">
             📥 تحميل التقرير الإكلينيكي الشامل (TXT)
           </button>
         </div>
@@ -515,17 +542,18 @@
       }
 
       function calculateTissuePerfusion(bp, radius, vis, perm, ox, tKey) {
-        let t = TISSUES[tKey];
-        let perfusionScore =
+        const t = TISSUES[tKey];
+        const perfusionScore =
           t.baseFlow +
           (bp - 100) * t.bpWeight -
           radius * t.radiusPenalization * (vis / 3.0) +
           (perm - 1.0) * (t.permSensitivity * 15) +
           (ox - 95) * t.metabolicDemand;
 
-        let resistance =
-          (1.0 + radius * 0.08 * t.viscosityImpact * (vis / 3.0)) / (perm * 0.9);
-        let finalEff = Math.max(5.0, Math.min(99.5, perfusionScore));
+        const resistance =
+          (1.0 + radius * 0.08 * t.viscosityImpact * (vis / 3.0)) /
+          Math.max(0.1, perm * 0.9);
+        const finalEff = Math.max(5.0, Math.min(99.5, perfusionScore));
 
         return {
           eff: finalEff,
@@ -534,13 +562,13 @@
       }
 
       function calc() {
-        let tKey = document.getElementById("tissue").value;
-        let t = TISSUES[tKey];
-        let bp = parseFloat(document.getElementById("bp").value);
-        let radius = parseFloat(document.getElementById("radius").value);
-        let vis = parseFloat(document.getElementById("viscosity").value);
-        let perm = parseFloat(document.getElementById("perm").value);
-        let ox = parseFloat(document.getElementById("ox").value);
+        const tKey = document.getElementById("tissue").value;
+        const t = TISSUES[tKey];
+        const bp = parseFloat(document.getElementById("bp").value);
+        const radius = parseFloat(document.getElementById("radius").value);
+        const vis = parseFloat(document.getElementById("viscosity").value);
+        const perm = parseFloat(document.getElementById("perm").value);
+        const ox = parseFloat(document.getElementById("ox").value);
 
         document.getElementById("v-bp").innerText = bp + " mmHg";
         document.getElementById("v-rad").innerText = radius.toFixed(1) + " mm";
@@ -548,11 +576,11 @@
         document.getElementById("v-perm").innerText = perm.toFixed(1);
         document.getElementById("v-ox").innerText = ox + " %";
 
-        let result = calculateTissuePerfusion(bp, radius, vis, perm, ox, tKey);
-        let effFixed = result.eff.toFixed(2);
-        let oxyDelivery = Math.min(
+        const result = calculateTissuePerfusion(bp, radius, vis, perm, ox, tKey);
+        const effFixed = result.eff.toFixed(2);
+        const oxyDelivery = Math.min(
           100,
-          (result.eff * (ox / 100)) / t.metabolicDemand
+          (result.eff * (ox / 100)) / t.metabolicDemand,
         ).toFixed(1);
 
         document.getElementById("eff-val").innerText = effFixed + "%";
@@ -561,13 +589,13 @@
         document.getElementById("tissue-profile").innerHTML =
           `<strong>النموذج الفسيولوجي للنسيج:</strong> ${t.desc}`;
 
-        let progBar = document.getElementById("prog-bar");
-        let badge = document.getElementById("status-badge");
-        let heroCard = document.getElementById("hero-card");
-        let note = document.getElementById("note");
+        const progBar = document.getElementById("prog-bar");
+        const badge = document.getElementById("status-badge");
+        const heroCard = document.getElementById("hero-card");
+        const note = document.getElementById("note");
         let clinicalStatus = "";
 
-        progBar.style.width = effFixed + "%";
+        progBar.style.width = Math.min(100, Math.max(0, result.eff)) + "%";
 
         if (result.eff >= 50) {
           heroCard.style.background =
@@ -609,12 +637,12 @@
           clinicalStatus,
         };
 
-        let steps = [60, 90, 120, 150, 180, 200];
-        let trend = steps.map((v) =>
-          calculateTissuePerfusion(v, radius, vis, perm, ox, tKey).eff.toFixed(1)
+        const steps = [60, 90, 120, 150, 180, 200];
+        const trend = steps.map((v) =>
+          calculateTissuePerfusion(v, radius, vis, perm, ox, tKey).eff.toFixed(1),
         );
 
-        let ctx = document.getElementById("chart").getContext("2d");
+        const ctx = document.getElementById("chart").getContext("2d");
         if (chart) {
           chart.data.datasets[0].label = `معدل استجابة (${t.name})`;
           chart.data.datasets[0].data = trend;
@@ -662,7 +690,7 @@
           `- Capillary Permeability: ${reportData.perm}\n` +
           `- Baseline SpO2: ${reportData.ox} %\n` +
           `--------------------------------------------------------\n` +
-          `[Tissue-Independent Simulation Outputs]\n` +
+          `[Simulation Outputs]\n` +
           `- Perfusion Efficiency: ${reportData.effFixed}%\n` +
           `- Vascular Flow Resistance: ${reportData.resistance} PRU\n` +
           `- Effective Oxygen Delivery: ${reportData.oxyDelivery}%\n` +
