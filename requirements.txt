@@ -1,4 +1,2 @@
-torch
-fpdf
 streamlit
-pandas
+plotly
